@@ -1,17 +1,38 @@
-<!DOCTYPE HTML>  
+<?php
+
+    $db_pass = 'inter2216';
+
+    $db_name = 'international';
+
+    if ( isset($_POST['name']) && isset($_POST['birthday']) && isset($_POST['taj']) && isset($_POST['pnumber']) && 
+         isset($_POST['postcode']) && isset($_POST['cityname']) && isset($_POST['streetname']) && isset($_POST['housenumber']) &&
+         isset($_POST['phone']) && isset($_POST['email']) ) {
+        $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_pass);
+
+        $sql = "INSERT INTO users (Név, Szül.nap , TAJ, Személyi, Irányítószám, Település, Utca, Házszám) 
+            VALUES 
+            ('{$_POST['name']}', '{$_POST['birrhday']}', '{$_POST['taj']}, '{$_POST['pnumber']}, '{$_POST['postcode']}, '{$_POST['cityname']},
+            '{$_POST['streetname']}, '{$_POST['housenumber']}, '{$_POST['phone']}, '{$_POST['email']}')
+        ";
+
+        $dbh->query($sql); 
+    }
+?>
+
+<!DOCTYPE HTML>   
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-.error {color: #FF0000;}
+.error {color: red;}
 </style>
 </head>
 <body>  
 
 <?php
-$nameErr = $emailErr = $genderErr = $birthdayErr = "";
-$name = $email = $gender = $birthday = "";
+$nameErr = $emailErr = $birthdayErr = $postcodeErr = $citynameErr = $streetnameErr = $housenumberErr = $phoneErr = $tajErr = $pnumberErr = "";
+$name = $email = $birthday = $postcode = $cityname = $streetname = $housenumber = $phone = $taj = $pnumber = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
@@ -35,35 +56,94 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
     
-  if (empty($_POST["gender"])) {
-    $genderErr = "Gender is required";
+  if (empty($_POST["postcode"])) {
+    $postcodeErr = "Postcode is required";
   } else {
-    $gender = test_input($_POST["gender"]);
+    $postcode = test_input($_POST["postcode"]);
+  }
+  
+  if (empty($_POST["cityname"])) {
+    $citynameErr = "City name is required";
+  } else {
+    $cityname = test_input($_POST["cityname"]);
+  }
+  
+  if (empty($_POST["streetname"])) {
+    $streetnameErr = "Street name is required";
+  } else {
+    $streetname = test_input($_POST["streetname"]);
+  }
+  
+  if (empty($_POST["housenumber"])) {
+    $housenumberErr = "House number is required";
+  } else {
+    $housenumber = test_input($_POST["housenumber"]);
+  }
+  
+  if (empty($_POST["phone"])) {
+    $phoneErr = "Phone number is required";
+  } else {
+    $phone = test_input($_POST["housenumber"]);
+  }
+  
+  if (empty($_POST["taj"])) {
+    $tajErr = "TAJ number is required";
+  } else {
+    $taj = test_input($_POST["taj"]);
+  }
+  if (empty($_POST["pnumber"])) {
+    $pnumberErr = "Nincs kitöltve";
+  } else {
+    $pnumber = test_input($_POST["pnumber"]);
   }
 }
 
 function test_input($data) {
   $data = trim($data); // levágja a felesleges space-t, új sort, tab-ot
-  $data = stripslashes($data);  
-  $data = htmlspecialchars($data);
+  $data = stripslashes($data);  // levágja a backslasht
+  $data = htmlspecialchars($data); // át alakítja a speciális karaktereket, hogy a html is olvasni tudja
   return $data;
 }
 ?>
 
-<h2>Jelentkezési lap</h2>
+<h1>Jelentkezési lap</h1>
 <p><span class="error">* required field</span></p>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<h2>Személyes adatok</h2>  
   Name: <input type="text" name="name" value="<?php echo $name;?>">
   <span class="error">* <?php echo $nameErr;?></span>
   <br><br>
   Birthday: <input type="date" name="birthday" value="<?php echo $birthday;?>">
   <span class="error">* <?php echo $birthdayErr;?></span>
   <br><br>
-  Gender:
-  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Female
-  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Male  
-  <span class="error">* <?php echo $genderErr;?></span>
-  <br><br>   
+  TAJ szám: <input type="number" name="taj" value="<?php echo $taj;?>">
+  <span class="error">* <?php echo $tajErr;?></span>
+  <br><br>
+  Személyi igazolvány szám: <input type="text" name="pnumber" value="<?php echo $pnumber;?>">
+  <span class="error">* <?php echo $pnumberErr;?></span>
+  <br><br>
+  <h2>Lakcím adatok</h2>
+  Postalcode:
+  <input type="number" name="postcode" value="<?php echo $postcode?>">
+  <span class="error">* <?php echo $postcodeErr; ?></span>
+  <br><br>
+  City name:
+  <input type="text" name="cityname" value="<?php echo $cityname?>">
+  <span class="error">* <?php echo $citynameErr; ?></span>
+  <br><br>
+  Street name:
+  <input type="text" name="streetname" value="<?php echo $streetname?>">
+  <span class="error">* <?php echo $streetnameErr; ?></span>
+  <br><br>
+  House number:
+  <input type="number" name="housenumber" value="<?php echo $housenumber?>">
+  <span class="error">* <?php echo $housenumberErr; ?></span>
+  <br><br>
+  <h2>Elérhetőségek</h2>
+  Phonenumber:
+  <input type="tel" name="phone" value="<?php echo $phone?>">
+  <span class="error">* <?php echo $phoneErr; ?></span>
+  <br><br>  
   E-mail: <input type="text" name="email" value="<?php echo $email;?>">
   <span class="error">* <?php echo $emailErr;?></span>
   <br><br>
