@@ -1,17 +1,17 @@
 <?php
 
-    $db_pass = 'inter2216';
+    $db_password = 'Yfisu87l8RuxPno6';
 
-    $db_name = 'international';
+    $db_name = 'oltopont';
 
     if ( isset($_POST['name']) && isset($_POST['birthday']) && isset($_POST['taj']) && isset($_POST['pnumber']) && 
          isset($_POST['postcode']) && isset($_POST['cityname']) && isset($_POST['streetname']) && isset($_POST['housenumber']) &&
          isset($_POST['phone']) && isset($_POST['email']) ) {
-        $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_pass);
+        $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_password);
 
-        $sql = "INSERT INTO users (Név, Szül.nap , TAJ, Személyi, Irányítószám, Település, Utca, Házszám) 
+        $sql = "INSERT INTO users (Név, Születésnap , TAJ, Személyi, Irányítószám, Település, Utca, Házszám, Telefon, E-mail) 
             VALUES 
-            ('{$_POST['name']}', '{$_POST['birrhday']}', '{$_POST['taj']}, '{$_POST['pnumber']}, '{$_POST['postcode']}, '{$_POST['cityname']},
+            ('{$_POST['name']}', '{$_POST['birthday']}', '{$_POST['taj']}, '{$_POST['pnumber']}, '{$_POST['postcode']}, '{$_POST['cityname']},
             '{$_POST['streetname']}, '{$_POST['housenumber']}, '{$_POST['phone']}, '{$_POST['email']}')
         ";
 
@@ -69,30 +69,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   
   if (empty($_POST["streetname"])) {
-    $streetnameErr = "Street name is required";
+    $streetnameErr = "Üres mező";
   } else {
     $streetname = test_input($_POST["streetname"]);
   }
   
   if (empty($_POST["housenumber"])) {
-    $housenumberErr = "House number is required";
+    $housenumberErr = "Üres mező";
   } else {
     $housenumber = test_input($_POST["housenumber"]);
   }
   
   if (empty($_POST["phone"])) {
-    $phoneErr = "Phone number is required";
+    $phoneErr = "Üres mező";
   } else {
     $phone = test_input($_POST["housenumber"]);
   }
   
   if (empty($_POST["taj"])) {
-    $tajErr = "TAJ number is required";
+    $tajErr = "Üres mező";
   } else {
     $taj = test_input($_POST["taj"]);
   }
   if (empty($_POST["pnumber"])) {
-    $pnumberErr = "Nincs kitöltve";
+    $pnumberErr = "Üres mező";
   } else {
     $pnumber = test_input($_POST["pnumber"]);
   }
@@ -152,7 +152,11 @@ function test_input($data) {
             </button>
    
 </form>
-
+<?php       
+      $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_password);
+      $result = $dbh->query("SELECT * FROM data");
+      $users = $result->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 </body>
 </html>
