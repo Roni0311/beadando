@@ -9,7 +9,7 @@
          isset($_POST['phone']) && isset($_POST['email']) ) {
         $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_password);
 
-        $sql = "INSERT INTO users (Név, Születésnap , TAJ, Személyi, Irányítószám, Település, Utca, Házszám, Telefon, E-mail) 
+        $sql = "INSERT INTO oltopont (Név, Születésnap , TAJ, Személyi, Irányítószám, Település, Utca, Házszám, Telefon, E-mail) 
             VALUES 
             ('{$_POST['name']}', '{$_POST['birthday']}', '{$_POST['taj']}, '{$_POST['pnumber']}, '{$_POST['postcode']}, '{$_POST['cityname']},
             '{$_POST['streetname']}, '{$_POST['housenumber']}, '{$_POST['phone']}, '{$_POST['email']}')
@@ -24,6 +24,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/datastyle.css">
 <style>
 .error {color: red;}
 </style>
@@ -36,19 +37,19 @@ $name = $email = $birthday = $postcode = $cityname = $streetname = $housenumber 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
-    $nameErr = "Name is required";
+    $nameErr = "Név szükséges";
   } else {
     $name = test_input($_POST["name"]);
   }
   
   if (empty($_POST["birthday"])) {
-    $birthdayErr = "Birthday is required";
+    $birthdayErr = "Születési dátum szükséges";
   } else {
     $birthday = test_input($_POST["birthday"]);
   }
   
   if (empty($_POST["email"])) {
-    $emailErr = "Email is required";
+    $emailErr = "Email szükséges";
   } else {
     $email = test_input($_POST["email"]);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -57,42 +58,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
     
   if (empty($_POST["postcode"])) {
-    $postcodeErr = "Postcode is required";
+    $postcodeErr = "Irányítószám szükséges";
   } else {
     $postcode = test_input($_POST["postcode"]);
   }
   
   if (empty($_POST["cityname"])) {
-    $citynameErr = "City name is required";
+    $citynameErr = "Település szükséges";
   } else {
     $cityname = test_input($_POST["cityname"]);
   }
   
   if (empty($_POST["streetname"])) {
-    $streetnameErr = "Üres mező";
+    $streetnameErr = "Utca név szükséges";
   } else {
     $streetname = test_input($_POST["streetname"]);
   }
   
   if (empty($_POST["housenumber"])) {
-    $housenumberErr = "Üres mező";
+    $housenumberErr = "Házszám szükséges";
   } else {
     $housenumber = test_input($_POST["housenumber"]);
   }
   
   if (empty($_POST["phone"])) {
-    $phoneErr = "Üres mező";
+    $phoneErr = "Telefon szükséges";
   } else {
     $phone = test_input($_POST["housenumber"]);
   }
   
   if (empty($_POST["taj"])) {
-    $tajErr = "Üres mező";
+    $tajErr = "TAJ szám szükséges";
   } else {
     $taj = test_input($_POST["taj"]);
   }
   if (empty($_POST["pnumber"])) {
-    $pnumberErr = "Üres mező";
+    $pnumberErr = "Személyi szám szükséges";
   } else {
     $pnumber = test_input($_POST["pnumber"]);
   }
@@ -147,9 +148,7 @@ function test_input($data) {
   E-mail: <input type="text" name="email" value="<?php echo $email;?>">
   <span class="error">* <?php echo $emailErr;?></span>
   <br><br>
-  <button class="btn btn-primary mt-3">
-                Save
-            </button>
+  <input type="submit" value="Submit">
    
 </form>
 <?php       

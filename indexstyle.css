@@ -1,0 +1,22 @@
+body{
+    background: paleturquoise url("injection.jpg") no-repeat fixed center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 80px;
+  }
+  
+  h1 {
+      color: blue;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 300%;
+  }
+  
+  h2{
+      font-family: 'Times New Roman', Times, serif;
+      color: green;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
