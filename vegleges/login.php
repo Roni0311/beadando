@@ -4,11 +4,11 @@ require_once('config.inc.php');
 
 session_start();
 
-if (isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['email']) && isset($_POST['taj'])) {
     $dbh = new PDO("mysql:host=localhost;dbname=$db_name", $db_name, $db_password);
-    $sql = "SELECT * FROM data WHERE name = ? AND taj = SHA1(?)";
+    $sql = "SELECT * FROM data WHERE email = ? AND taj = SHA1(?)";
     $sth = $dbh->prepare($sql);
-    $sth->execute([$_POST['name'], $_POST['taj']]);
+    $sth->execute([$_POST['email'], $_POST['taj']]);
     $users = $sth->fetchAll(PDO::FETCH_ASSOC);
 
     if (count($users) === 1) {
@@ -47,7 +47,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <?php if ( isset($error) ) { ?>  
                 <div class="alert alert-danger">
-                    Name or TAJ is wrong!
+                    E-mail or TAJ is wrong!
                 </div>
             <?php } ?>
           </div>
@@ -55,12 +55,12 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
           <!-- Email input -->
           <div class="form-outline mb-4">
             <input 
-                name="name"
+                name="email"
                 type="Text" 
                 id="form3Example3" 
                 class="form-control form-control-lg"
-                placeholder="Enter Name">
-            <label class="form-label" for="form3Example3">Name</label>
+                placeholder="Enter Email">
+            <label class="form-label" for="form3Example3">Email</label>
           </div>
 
           <!-- Password input -->
@@ -70,7 +70,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 type="number" 
                 id="form3Example4" 
                 class="form-control form-control-lg"
-                placeholder="Enter TAJ">
+                placeholder="Enter Taj">
             <label class="form-label" for="form3Example4">TAJ</label>
           </div>
 
